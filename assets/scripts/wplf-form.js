@@ -21,7 +21,6 @@ $(document).ready(function() {
     $.post( ajax_object.ajax_url + '?action=wplf_submit', 
       $(this).serialize(), 
       function(response) {
-        console.log(response);
         if( 'success' in response ) {
           // show success message if one exists
           $form.after(response.success);

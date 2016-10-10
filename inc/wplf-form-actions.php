@@ -57,7 +57,9 @@ function wplf_send_email_copy( $return ) {
         }
       }
 
-      wp_mail( $to, $subject, $content );
+      $headers = apply_filters( "wplf_mail_headers", [] );
+
+      wp_mail( $to, $subject, $content, implode( '\r\n', $headers ) );
     }
   }
 }
