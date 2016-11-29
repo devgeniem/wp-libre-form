@@ -45,6 +45,8 @@ function wplf_send_email_copy( $return ) {
 
         $subject = preg_replace_callback( "/%.+?%/", "replace_field_tags", $subject );
         $content = preg_replace_callback( "/%.+?%/", "replace_field_tags", $content );
+
+        $content = apply_filters( 'wplf_mail_content', $content );
       }
       else {
         $subject = wp_sprintf( __('New submission from %s', 'wp-libre-form'), $referrer );
