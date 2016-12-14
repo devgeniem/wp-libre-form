@@ -6,28 +6,37 @@
 
 $(document).ready(function() {
 
+  window.wplf = {
+    successCallbacks: [],
+    errorCallbacks: []
+  };
+
   // ajax form submissions
-  $('.libre-form').submit(function(e) { 
+  $('.libre-form').submit(function(e) {
 
     var $form = $(this);
 
-    // add class to enable css changes to indicate ajax loading 
+    // add class to enable css changes to indicate ajax loading
     $form.addClass('sending');
 
     // reset errors
     $form.find('.wplf-error').remove();
 
     // submit form to ajax handler in admin-ajax.php
-    $.post( ajax_object.ajax_url + '?action=wplf_submit', 
-      $(this).serialize(), 
+    $.post( ajax_object.ajax_url + '?action=wplf_submit',
+      $(this).serialize(),
       function(response) {
         if( 'success' in response ) {
           // show success message if one exists
           $form.after(response.success);
-        } 
+        }
         if( 'ok' in response && response.ok ) {
           // submit succesful!
           $form.remove();
+
+          window.wplf.successCallbacks.forEach(function(func){
+            func(response);
+          });
         }
         if( 'error' in response ) {
           // show error message in form
