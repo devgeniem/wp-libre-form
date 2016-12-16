@@ -39,6 +39,10 @@ $(document).ready(function() {
           if( 'ok' in response && response.ok ) {
             // submit succesful!
             $form.remove();
+
+            window.wplf.successCallbacks.forEach(function(func){
+            func(response);
+            });
           }
           if( 'error' in response ) {
             // show error message in form
