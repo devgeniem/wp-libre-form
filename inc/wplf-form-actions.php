@@ -70,7 +70,6 @@ function wplf_send_email_copy( $return ) {
             $newname= $_FILES['files']["name"][$i];
 
             $dir = sys_get_temp_dir() . '/';
-            error_log($dir);
 
             rename($_FILES['files']["tmp_name"][$i], $dir.$newname);
             $attachments[] = $dir.$newname;
