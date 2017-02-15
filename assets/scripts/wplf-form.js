@@ -33,6 +33,10 @@ $(document).ready(function() {
         if( 'error' in response ) {
           // show error message in form
           $form.append('<p class="wplf-error error">' + response.error + '</p>');
+
+          window.wplf.errorCallbacks.forEach(function(func){
+            func(response);
+          });
         }
       }
     ).always(function() {
