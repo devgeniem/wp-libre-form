@@ -45,6 +45,8 @@ function wplf_send_email_copy( $return ) {
 
         $subject = preg_replace_callback( "/%.+?%/", "replace_field_tags", $subject );
         $content = preg_replace_callback( "/%.+?%/", "replace_field_tags", $content );
+
+        $content = apply_filters( 'wplf_mail_content', $content );
       }
       else {
         $subject = wp_sprintf( __('New submission from %s', 'wp-libre-form'), $referrer );
@@ -57,7 +59,27 @@ function wplf_send_email_copy( $return ) {
         }
       }
 
-      wp_mail( $to, $subject, $content );
+      // Add attachments
+      $attachments = [];
+      if( !empty($_FILES['files'])) {
+        for($i = count($_FILES['files']['name']) - 1; $i >= 0; $i-- ) {
+
+          if (! $_FILES['files']["error"][$i] > 0) {
+            $temp = explode(".", $_FILES['files']["name"][$i]);
+            $extension = end($temp);
+            $newname= $_FILES['files']["name"][$i];
+
+            $dir = sys_get_temp_dir() . '/';
+
+            rename($_FILES['files']["tmp_name"][$i], $dir.$newname);
+            $attachments[] = $dir.$newname;
+          }
+        }
+      }
+
+      $headers = apply_filters( "wplf_mail_headers", [] );
+
+      wp_mail( $to, $subject, $content, implode( '\r\n', $headers ), $attachments );
     }
   }
 }

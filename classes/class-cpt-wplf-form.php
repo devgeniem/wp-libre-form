@@ -327,7 +327,7 @@ class CPT_WPLF_Form {
 ?>
 <p class="wplf_email_template"><input type="text" name="wplf_email_copy_to[]" value="<?php echo esc_attr( $email ); ?>" style="width:71%;" list="emails" /><a href="#TB_inline?width=600&height=800&inlineId=wplf_template_modal" class=" wplf_edit_template thickbox"><input type="button" class="button" value="✎" style="width:14%;" /></a><input type="button" class="button wplf_remove_email" value="🗑" style="width:14%;" /><input type="hidden" name="wplf_email_templates[]" value="<?php echo htmlentities( $template ); ?>" class="wplf_template_body" /></p>
 <?php
-  endforeach; 
+  endforeach;
 ?>
 </span>
 <p style="margin-top: .6em; text-align: right;">
@@ -471,7 +471,7 @@ class CPT_WPLF_Form {
       }
       ob_start();
 ?>
-<form class="libre-form libre-form-<?php echo $id . ' ' . $xclass; ?>">
+<form class="libre-form libre-form-<?php echo $id . ' ' . $xclass; ?>" enctype="multipart/form-data">
   <?php echo apply_filters( 'wplf_form', $content ); ?>
   <input type="hidden" name="referrer" value="<?php the_permalink(); ?>">
   <input type="hidden" name="_form_id" value="<?php esc_attr_e( $id ); ?>">
