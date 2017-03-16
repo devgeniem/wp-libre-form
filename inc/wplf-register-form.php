@@ -114,7 +114,7 @@ function register_libre_form( $name, $args ) {
           $emails[] = $email;
 
           // Convert newlines to <br> tags.
-          $template['content'] = str_replace(array("\r\n", "\r", "\n"), "<br>", $template['content']);
+          $template['content'] = str_replace(array("\r\n", "\r", "\n"), "<br />", $template['content']);
 
           if ( ! empty( $template ) && is_array( $template ) && count( $template ) == 2 ) {
             $templates[] = json_encode( $template, JSON_UNESCAPED_UNICODE );
