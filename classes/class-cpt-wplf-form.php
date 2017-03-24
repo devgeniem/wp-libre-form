@@ -493,7 +493,7 @@ class CPT_WPLF_Form {
     global $post;
 
     // register the script, but only enqueue it if the current post contains a form in it
-    wp_register_script( 'wplf-form-js', plugins_url( 'assets/scripts/wplf-form.js', dirname(__FILE__) ), array( 'jquery' ) );
+    wp_register_script( 'wplf-form-js', plugins_url( 'assets/scripts/wplf-form.js', dirname(__FILE__) ), array( 'jquery' ), 'slow' );
 
     wp_enqueue_script( 'wplf-form-js' );
     wp_localize_script( 'wplf-form-js', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
