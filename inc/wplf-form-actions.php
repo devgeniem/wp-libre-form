@@ -40,6 +40,9 @@ function wplf_send_email_copy( $return ) {
       if ( $template ) {
         $json = json_decode( $template );
 
+        // Convert br tags back to newlines.
+        $json->content = str_replace( "<br />", "\r\n", $json->content );
+
         $subject = $json->title;
         $content = $json->content;
 

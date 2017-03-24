@@ -113,6 +113,9 @@ function register_libre_form( $name, $args ) {
         foreach ( $args["emails"] as $email => $template ) {
           $emails[] = $email;
 
+          // Convert newlines to <br> tags.
+          $template['content'] = str_replace(array("\r\n", "\r", "\n"), "<br />", $template['content']);
+
           if ( ! empty( $template ) && is_array( $template ) && count( $template ) == 2 ) {
             $templates[] = json_encode( $template, JSON_UNESCAPED_UNICODE );
           }
@@ -152,6 +155,9 @@ function register_libre_form( $name, $args ) {
     if ( isset( $args["emails"] ) && is_array( $args["emails"] ) ) {
         foreach ( $args["emails"] as $email => $template ) {
             $emails[] = $email;
+
+            // Convert newlines to <br> tags.
+            $template['content'] = str_replace( array( "\r\n", "\r", "\n" ), "<br />", $template['content'] );
 
             if ( ! empty( $template ) && is_array( $template ) && count( $template ) == 2 ) {
                 $templates[] = json_encode( $template, JSON_UNESCAPED_UNICODE );

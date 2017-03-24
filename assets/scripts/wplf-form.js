@@ -23,22 +23,23 @@ $(document).ready(function() {
     $form.find('.wplf-error').remove();
 
     // submit form to ajax handler in admin-ajax.php
-    var fd = new FormData(this );
-    $.ajax({
-        url: ajax_object.ajax_url + '?action=wplf_submit',
-        data: fd,
-        cache: false,
-        processData: false,
-        contentType: false,
-        type: 'POST',
-        success: function (response) {
-          if( 'success' in response ) {
-            // show success message if one exists
-            $form.after(response.success);
-          }
-          if( 'ok' in response && response.ok ) {
-            // submit succesful!
-            $form.remove();
+
+    $.post( ajax_object.ajax_url + '?action=wplf_submit', 
+      $(this).serialize(), 
+      function(response) {
+        if( 'success' in response ) {
+          // show success message if one exists
+          $form.after(response.success);
+          $( 'html, body' ).animate( { scrollTop: 0 }, 'slow' );
+        } 
+        if( 'ok' in response && response.ok ) {
+          // submit succesful!
+          $form.remove();
+          $( 'html, body' ).animate( { scrollTop: 0 }, 'slow' );
+        }
+        if( 'error' in response ) {
+          // show error message in form
+          $form.append('<p class="wplf-error error">' + response.error + '</p>');
 
             window.wplf.successCallbacks.forEach(function(func){
             func(response);
