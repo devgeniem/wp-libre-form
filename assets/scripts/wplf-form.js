@@ -2,69 +2,69 @@
  * JS to be included on the front end pages with forms
  */
 
-(function($) {
+(function ($) {
 
-$(document).ready(function() {
+    $(document).ready(function () {
 
-  window.wplf = {
-    successCallbacks: [],
-    errorCallbacks: []
-  };
+        window.wplf = {
+          successCallbacks: [],
+          errorCallbacks: []
+        };
 
-  // ajax form submissions
-  $('.libre-form').submit(function(e) {
+        // ajax form submissions
+        $('.libre-form').submit(function (e) {
 
-    var $form = $(this);
+            var $form = $(this);
 
-    // add class to enable css changes to indicate ajax loading
-    $form.addClass('sending');
+            // add class to enable css changes to indicate ajax loading
+            $form.addClass('sending');
 
-    // reset errors
-    $form.find('.wplf-error').remove();
+            // reset errors
+            $form.find('.wplf-error').remove();
 
-    // submit form to ajax handler in admin-ajax.php
+            // submit form to ajax handler in admin-ajax.php
 
-    $.post( ajax_object.ajax_url + '?action=wplf_submit', 
-      $(this).serialize(), 
-      function(response) {
-        if( 'success' in response ) {
-          // show success message if one exists
-          $form.after(response.success);
-          $( 'html, body' ).animate( { scrollTop: 0 }, 'slow' );
-        } 
-        if( 'ok' in response && response.ok ) {
-          // submit succesful!
-          $form.remove();
-          $( 'html, body' ).animate( { scrollTop: 0 }, 'slow' );
-        }
-        if( 'error' in response ) {
-          // show error message in form
-          $form.append('<p class="wplf-error error">' + response.error + '</p>');
+            $.post(ajax_object.ajax_url + '?action=wplf_submit',
+              $(this).serialize(),
+              function (response) {
+                if ('success' in response) {
+                  // show success message if one exists
+                  $form.after(response.success);
 
-            window.wplf.successCallbacks.forEach(function(func){
-            func(response);
-            });
-          }
-          if( 'error' in response ) {
-            // show error message in form
-            $form.append('<p class="wplf-error error">' + response.error + '</p>');
+                  window.wplf.successCallbacks.forEach( function (func) {
+                    func(response);
+                  });
 
-            window.wplf.errorCallbacks.forEach(function(func){
-              func(response);
-            });
-          }
-        }
-    }).always(function() {
-      // finished XHR request
-      $form.removeClass('sending');
+                  $('html, body').animate({
+                    scrollTop: 0
+                  }, 'slow');
+                }
+                if ('ok' in response && response.ok) {
+                  // submit succesful!
+                  $form.remove();
+                  $('html, body').animate({
+                    scrollTop: 0
+                  }, 'slow');
+                }
+
+                if ('error' in response) {
+                  // show error message in form
+                  $form.append('<p class="wplf-error error">' + response.error + '</p>');
+
+                  window.wplf.errorCallbacks.forEach( function (func) {
+                    func(response);
+                  });
+                }
+              }).always( function () {
+                // finished XHR request
+                $form.removeClass('sending');
+          });
+
+          // don't actually submit the form, causing a page reload
+          e.preventDefault();
+          return false;
+
+      });
     });
 
-    // don't actually submit the form, causing a page reload
-    e.preventDefault();
-    return false;
-
-  });
-});
-
 })(jQuery);
-
