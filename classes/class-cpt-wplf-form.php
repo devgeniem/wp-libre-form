@@ -68,7 +68,7 @@ class CPT_WPLF_Form {
     $args = array(
       'labels'             => $labels,
       'public'             => true,
-      'publicly_queryable' => true,
+      'publicly_queryable' => false,
       'exclude_from_search'=> true,
       'show_ui'            => true,
       'show_in_menu'       => true,
