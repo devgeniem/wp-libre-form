@@ -788,9 +788,6 @@ class CPT_WPLF_Form {
 <?php
       $output = ob_get_clean();
 
-      // enqueue our footer script here
-      wp_enqueue_script( 'wplf-form-js' );
-
       return $output;
     }
 
