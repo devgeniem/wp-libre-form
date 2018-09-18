@@ -31,9 +31,13 @@ function wplf_validate_required_empty( $return ) {
   // get required fields from form
   $required = explode( ',', get_post_meta( $_POST['_form_id'], '_wplf_required', true ) );
   $fields_empty = array();
-  foreach( $required as $key ) {
-    if( ! array_key_exists( $key, $_POST ) || empty( $_POST[$key] ) ) {
-      $fields_empty[] = $key;
+  foreach ( $required as $key ) {
+
+    // Do not interpret zero (string or number) as an empty value
+    if ( $_POST[ $key ] != 0 ) {
+      if ( ! array_key_exists( $key, $_POST ) || empty( $_POST[$key] ) ) {
+        $fields_empty[] = $key;
+      }
     }
   }
   $fields_empty = array_filter( $fields_empty ); // get rid of the empty keys
