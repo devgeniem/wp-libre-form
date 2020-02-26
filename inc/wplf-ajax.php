@@ -36,6 +36,10 @@ function wplf_ajax_submit_handler() {
       }
       $post_title = preg_replace('/%.+?%/', $replace, $post_title, 1);
     }
+    
+    if ($post_title == 'Mittarilukemailmoitus ') {
+        $post_title = 'Mittarilukemailmoitus-' . uniqid();
+    }
 
     // create submission post
     $post_id = wp_insert_post( array(
